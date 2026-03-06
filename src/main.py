@@ -81,6 +81,9 @@ def optff(req, k):
     return misses
 
 def main():
+    if(len(sys.argv) < 3):
+        print("Error: format requires input and output file paths")
+        return
     # input file is argument 1 i.e. "../input/example1.in"
     # output file is argument 2 i.e. "../output/example1.out"
     input_file = sys.argv[1]
@@ -88,13 +91,21 @@ def main():
 
     # read file
     with open(input_file, 'r') as f:
-        k, m = map(int, f.readline().split())
+        firstLine = f.readline()
+        if not firstLine.strip():
+            print("Error: Contents Empty In File")
+            return
+        k, m = map(int, firstLine.split())
         requests = list(map(int, f.readline().split()))
 
     # calculate misses for each algorithm
     fifo_misses = fifo(requests, k)
     lru_misses = lru(requests, k)
     optff_misses = optff(requests, k)
+
+    if(len(requests) != m):
+        print(f"Error: Expected {m} requests, but there are {len(requests)}")
+        return
 
     # write results to output file
     with open(output_file, 'w') as f:
