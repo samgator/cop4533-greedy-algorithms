@@ -1,7 +1,23 @@
 import sys
 
-def fifo():
+# Source used: https://www.w3schools.com/dsa/dsa_data_queues.php
+def fifo(req, k):
+    cache = []
     misses = 0
+    for r in req:
+        # if hit dont do anything
+        if r in cache:
+            continue
+        # if miss update misses and the cache
+        else:
+            misses = misses+1
+            # if cache isnt full you can add
+            if(len(cache) < k):
+                cache.append(r)
+            # if cache is full, first/oldest goes out and add
+            else:
+                cache.pop(0)
+                cache.append(r)
     return misses
 
 def lru():
