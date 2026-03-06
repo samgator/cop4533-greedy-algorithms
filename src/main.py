@@ -42,8 +42,35 @@ def lru(req, k):
                 cache.append(r)
     return misses
 
-def optff():
+# source: https://www.geeksforgeeks.org/operating-systems/beladys-anomaly-in-page-replacement-algorithms/
+def optff(req, k):
+
+    cache = []
     misses = 0
+
+    for r in req:
+        if r in cache:
+            continue
+        else:
+            misses += 1
+            if(len(cache) < k):
+                cache.append(r)
+            else:
+                furthest_index = -1
+                furthest_item = None
+                for item in cache:
+                    if item not in req[req.index(r):]:
+                        furthest_item = item
+                        break
+                    else:
+                        index = req[req.index(r):].index(item)
+                        if index > furthest_index:
+                            furthest_index = index
+                            furthest_item = item
+
+                cache.remove(furthest_item)
+                cache.append(r)
+
     return misses
 
 def main():
