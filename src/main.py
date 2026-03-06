@@ -49,19 +49,26 @@ def optff(req, k):
     misses = 0
 
     for r in req:
+        # if hit, do nothing
         if r in cache:
             continue
+        # if miss, update misses and the cache
         else:
             misses += 1
+            # if cache isnt full, add
             if(len(cache) < k):
                 cache.append(r)
+            # if cache is full, find the item that will be used furthest in the future, pop it, then add new item
             else:
                 furthest_index = -1
                 furthest_item = None
+                # loop through cache and find the item that will be used furthest in the future
                 for item in cache:
+                    # if item is not in future requests, then it is the furthest item so break loop
                     if item not in req[req.index(r):]:
                         furthest_item = item
                         break
+                    # if item in the future requests, find the index of the next time it will be used and compare to furthest index found so far
                     else:
                         index = req[req.index(r):].index(item)
                         if index > furthest_index:
