@@ -20,8 +20,26 @@ def fifo(req, k):
                 cache.append(r)
     return misses
 
-def lru():
+# Source used: https://www.geeksforgeeks.org/computer-organization-architecture/cache-replacement-policies/
+# and https://www.geeksforgeeks.org/system-design/lru-cache-implementation/
+def lru(req, k):
+    cache = []
     misses = 0
+    for r in req:
+        # if hit remove current item spot and add it back so its in the most recently used spot
+        if r in cache:
+            cache.remove(r)
+            cache.append(r)
+        # if miss update misses and the cache
+        else:
+            misses = misses+1
+            # if cache isnt full you can add
+            if(len(cache) < k):
+                cache.append(r)
+            # if cache is full the least recently used gets popped and the newest item gets added to the end (most recently used spot)
+            else:
+                cache.pop(0)
+                cache.append(r)
     return misses
 
 def optff():
