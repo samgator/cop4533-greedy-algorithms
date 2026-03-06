@@ -42,7 +42,7 @@ def lru(req, k):
                 cache.append(r)
     return misses
 
-def optff():
+def optff(req, k):
     misses = 0
     return misses
 
